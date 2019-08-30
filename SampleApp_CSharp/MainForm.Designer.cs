@@ -258,13 +258,7 @@ namespace Scanner_SDK_Sample_Application
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.txtBarcode = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.upcList = new System.Windows.Forms.ListView();
-            this.colUPC1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colStyle1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colColor1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSize1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colQuantity1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colOperation1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.barcodeGridView = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnBrowseScript = new System.Windows.Forms.Button();
             this.chkBoxAppADF = new System.Windows.Forms.CheckBox();
@@ -273,7 +267,6 @@ namespace Scanner_SDK_Sample_Application
             this.cmbEmulation = new System.Windows.Forms.ComboBox();
             this.chkBoxEmulation = new System.Windows.Forms.CheckBox();
             this.tabCtrl = new System.Windows.Forms.TabControl();
-            this.barcodeGridView = new System.Windows.Forms.DataGridView();
             this.colUPC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStyle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -332,10 +325,10 @@ namespace Scanner_SDK_Sample_Application
             this.tabBarcode.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.barcodeGridView)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.grpBoxLanguage.SuspendLayout();
             this.tabCtrl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.barcodeGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // grpboxBarcodeLbl
@@ -2749,7 +2742,6 @@ namespace Scanner_SDK_Sample_Application
             // 
             this.groupBox5.BackColor = System.Drawing.Color.WhiteSmoke;
             this.groupBox5.Controls.Add(this.barcodeGridView);
-            this.groupBox5.Controls.Add(this.upcList);
             this.groupBox5.Location = new System.Drawing.Point(6, 6);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(557, 300);
@@ -2757,57 +2749,29 @@ namespace Scanner_SDK_Sample_Application
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Scaned Result";
             // 
-            // upcList
+            // barcodeGridView
             // 
-            this.upcList.BackColor = System.Drawing.Color.White;
-            this.upcList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.upcList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colUPC1,
-            this.colStyle1,
-            this.colColor1,
-            this.colSize1,
-            this.colQuantity1,
-            this.colOperation1});
-            this.upcList.FullRowSelect = true;
-            this.upcList.GridLines = true;
-            this.upcList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.upcList.HideSelection = false;
-            this.upcList.Location = new System.Drawing.Point(6, 19);
-            this.upcList.MultiSelect = false;
-            this.upcList.Name = "upcList";
-            this.upcList.ShowItemToolTips = true;
-            this.upcList.Size = new System.Drawing.Size(545, 91);
-            this.upcList.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.upcList.TabIndex = 1;
-            this.upcList.UseCompatibleStateImageBehavior = false;
-            this.upcList.View = System.Windows.Forms.View.Details;
-            // 
-            // colUPC1
-            // 
-            this.colUPC1.Text = "UPC #";
-            this.colUPC1.Width = 130;
-            // 
-            // colStyle1
-            // 
-            this.colStyle1.Text = "Style #";
-            this.colStyle1.Width = 130;
-            // 
-            // colColor1
-            // 
-            this.colColor1.Text = "Color #";
-            // 
-            // colSize1
-            // 
-            this.colSize1.Text = "Size #";
-            // 
-            // colQuantity1
-            // 
-            this.colQuantity1.Text = "Quantity";
-            // 
-            // colOperation1
-            // 
-            this.colOperation1.Text = "Operation";
-            this.colOperation1.Width = 100;
+            this.barcodeGridView.AllowUserToAddRows = false;
+            this.barcodeGridView.AllowUserToDeleteRows = false;
+            this.barcodeGridView.AllowUserToResizeColumns = false;
+            this.barcodeGridView.AllowUserToResizeRows = false;
+            this.barcodeGridView.BackgroundColor = System.Drawing.Color.White;
+            this.barcodeGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.barcodeGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.barcodeGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colUPC,
+            this.colStyle,
+            this.colColor,
+            this.colSize,
+            this.colQuantity,
+            this.colOperation});
+            this.barcodeGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.barcodeGridView.Location = new System.Drawing.Point(6, 19);
+            this.barcodeGridView.Name = "barcodeGridView";
+            this.barcodeGridView.ReadOnly = true;
+            this.barcodeGridView.Size = new System.Drawing.Size(545, 275);
+            this.barcodeGridView.TabIndex = 2;
+            this.barcodeGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_ContentDoubleClicked);
             // 
             // groupBox1
             // 
@@ -2915,28 +2879,6 @@ namespace Scanner_SDK_Sample_Application
             this.tabCtrl.Size = new System.Drawing.Size(575, 724);
             this.tabCtrl.TabIndex = 1;
             // 
-            // barcodeGridView
-            // 
-            this.barcodeGridView.AllowUserToAddRows = false;
-            this.barcodeGridView.AllowUserToDeleteRows = false;
-            this.barcodeGridView.AllowUserToResizeColumns = false;
-            this.barcodeGridView.AllowUserToResizeRows = false;
-            this.barcodeGridView.BackgroundColor = System.Drawing.Color.White;
-            this.barcodeGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.barcodeGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.barcodeGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colUPC,
-            this.colStyle,
-            this.colColor,
-            this.colSize,
-            this.colQuantity,
-            this.colOperation});
-            this.barcodeGridView.Location = new System.Drawing.Point(6, 116);
-            this.barcodeGridView.Name = "barcodeGridView";
-            this.barcodeGridView.ReadOnly = true;
-            this.barcodeGridView.Size = new System.Drawing.Size(545, 178);
-            this.barcodeGridView.TabIndex = 2;
-            // 
             // colUPC
             // 
             this.colUPC.Frozen = true;
@@ -2978,10 +2920,11 @@ namespace Scanner_SDK_Sample_Application
             // colOperation
             // 
             this.colOperation.Frozen = true;
-            this.colOperation.HeaderText = "Operation";
+            this.colOperation.HeaderText = "Update";
             this.colOperation.Name = "colOperation";
             this.colOperation.ReadOnly = true;
-            this.colOperation.Width = 120;
+            this.colOperation.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colOperation.Text = "";
             // 
             // frmScannerApp
             // 
@@ -3074,12 +3017,12 @@ namespace Scanner_SDK_Sample_Application
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.barcodeGridView)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grpBoxLanguage.ResumeLayout(false);
             this.grpBoxLanguage.PerformLayout();
             this.tabCtrl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.barcodeGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3310,18 +3253,11 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.TextBox txtBarcode;
         private System.Windows.Forms.Button btnBrowseScript;
         private System.Windows.Forms.CheckBox chkBoxAppADF;
-        private System.Windows.Forms.ListView upcList;
-        private System.Windows.Forms.ColumnHeader colUPC1;
-        private System.Windows.Forms.ColumnHeader colStyle1;
-        private System.Windows.Forms.ColumnHeader colColor1;
-        private System.Windows.Forms.ColumnHeader colSize1;
         private System.Windows.Forms.GroupBox grpBoxLanguage;
         private System.Windows.Forms.Button btnScriptEditor;
         private System.Windows.Forms.ComboBox cmbEmulation;
         private System.Windows.Forms.CheckBox chkBoxEmulation;
-        private System.Windows.Forms.ColumnHeader colQuantity1;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.ColumnHeader colOperation1;
         private System.Windows.Forms.DataGridView barcodeGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUPC;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStyle;

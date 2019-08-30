@@ -56,7 +56,6 @@ namespace Scanner_SDK_Sample_Application
             tbResult.Clear();
             lbStatus.Text = "Status";
             txtSyblogy.Clear();
-            upcList.Items.Clear();
             lbTotal.Text = "Total Pcs:0";
             barcodeGridView.Rows.Clear();
         }
@@ -347,28 +346,26 @@ namespace Scanner_SDK_Sample_Application
             {
                 string tmpScanData = scanData;
                 var strData = string.Empty;
+
                 var row = new DataGridViewRow();
                 var upcCell = new DataGridViewTextBoxCell();
 
                 UpdateResults("Barcode Event fired");
                 ShowBarcodeLabel(tmpScanData, out strData);
 
-                //向服务器发送查询请求
+                #region 向服务器发送查询请求
+
                 var url = baseUrl + "api/RegisteredRegularSKU/?vendor=Free%20Country&upc=" + strData;
                 var result = WebServiceManager.SendQueryRequest(url).Replace("\"", "").Split(';');
 
                 upcCell.Value = result[0];
                 row.Cells.Add(upcCell);
 
-                var upcItem = new ListViewItem { Text = result[0] };
-
                 for (int i = 1; i < result.Length; i++)
                 {
                     var txtCell = new DataGridViewTextBoxCell();
                     txtCell.Value = result[i];
                     row.Cells.Add(txtCell);
-
-                    upcItem.SubItems.Add(result[i]);
                 }
 
                 //更新件数
@@ -387,34 +384,29 @@ namespace Scanner_SDK_Sample_Application
                 if (!isExisted)
                 {
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = "1" });
-                    barcodeGridView.Rows.Add(row);
-                }
 
-                var item = upcList.Items.Cast<ListViewItem>().SingleOrDefault(x => x.Text == strData);
+                    if (result[1] == "")
+                    {
+                        var btnCell = new DataGridViewButtonCell();
+                        btnCell.Value = "Register";
+                        row.Cells.Add(btnCell);
+                    }
 
-                if (item == null)
-                {
-                    upcItem.SubItems.Add("1");
-                    upcList.Items.Add(upcItem);
+                    if (barcodeGridView.InvokeRequired)
+                    {
+                        barcodeGridView.Invoke(new MethodInvoker(delegate { barcodeGridView.Rows.Add(row); }));
+                    }
 
                 }
-                else
-                {
-                    item.SubItems[4].Text = (int.Parse(item.SubItems[4].Text) + 1).ToString();
-                }
+                #endregion
 
                 if (txtBarcode.InvokeRequired)
                 {
                     txtBarcode.Invoke(new MethodInvoker(delegate
                     {
-                        //txtBarcode.Text = IndentXmlString(tmpScanData);
                         txtBarcode.Text += strData + ";";
                         tbPcs.Text = "1";
-                        //实时更新total pcs数量
-                        //var orgNumber = int.Parse(lbTotal.Text.Split(':')[1]);
-                        //lbTotal.Text = "Total Pcs:" + (orgNumber + 1).ToString();
                         lbTotal.Text = "Total Pcs:" + (txtBarcode.Text.Split(';').Length - 1).ToString();
-                        //upcList.Items.Add();
                     }));
                 }
 
@@ -438,8 +430,6 @@ namespace Scanner_SDK_Sample_Application
                     }                   
                     CreateNewEpcId();
                 }
-
-                //upcList2.Items.Add(new ListViewItem { Text = "TEST" });
 
             }
             catch (Exception e)

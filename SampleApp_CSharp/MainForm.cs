@@ -2455,6 +2455,23 @@ namespace Scanner_SDK_Sample_Application
                 lbStatus.Text = "Error";
             }
         }
+
+        void DataGridView_ContentDoubleClicked(object sender, DataGridViewCellEventArgs e)
+        {
+
+            MessageBox.Show("1");
+            try
+            {
+                if (barcodeGridView.CurrentCell.FormattedValue.ToString() == "")
+                {
+
+                }
+            }
+            catch (Exception exception)
+            {
+
+            }
+        }
     }
 
     class UPCItem

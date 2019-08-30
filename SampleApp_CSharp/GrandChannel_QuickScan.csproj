@@ -106,6 +106,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ScannerAttribute.cs" />
     <Compile Include="ViewSSW.cs" />
     <Compile Include="ViewScanToConnect.cs">
