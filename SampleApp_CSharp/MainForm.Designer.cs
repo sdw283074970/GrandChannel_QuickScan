@@ -259,6 +259,12 @@ namespace Scanner_SDK_Sample_Application
             this.txtBarcode = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.barcodeGridView = new System.Windows.Forms.DataGridView();
+            this.colUPC = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStyle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOperation = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnBrowseScript = new System.Windows.Forms.Button();
             this.chkBoxAppADF = new System.Windows.Forms.CheckBox();
@@ -267,12 +273,6 @@ namespace Scanner_SDK_Sample_Application
             this.cmbEmulation = new System.Windows.Forms.ComboBox();
             this.chkBoxEmulation = new System.Windows.Forms.CheckBox();
             this.tabCtrl = new System.Windows.Forms.TabControl();
-            this.colUPC = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStyle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOperation = new System.Windows.Forms.DataGridViewButtonColumn();
             this.grpboxBarcodeLbl.SuspendLayout();
             this.grpTrigger.SuspendLayout();
             this.grpGeneral.SuspendLayout();
@@ -2765,13 +2765,61 @@ namespace Scanner_SDK_Sample_Application
             this.colSize,
             this.colQuantity,
             this.colOperation});
-            this.barcodeGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.barcodeGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.barcodeGridView.Location = new System.Drawing.Point(6, 19);
             this.barcodeGridView.Name = "barcodeGridView";
             this.barcodeGridView.ReadOnly = true;
             this.barcodeGridView.Size = new System.Drawing.Size(545, 275);
             this.barcodeGridView.TabIndex = 2;
-            this.barcodeGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_ContentDoubleClicked);
+            this.barcodeGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellClicked);
+            this.barcodeGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellContentClicked);
+            // 
+            // colUPC
+            // 
+            this.colUPC.Frozen = true;
+            this.colUPC.HeaderText = "UPC#";
+            this.colUPC.Name = "colUPC";
+            this.colUPC.ReadOnly = true;
+            // 
+            // colStyle
+            // 
+            this.colStyle.Frozen = true;
+            this.colStyle.HeaderText = "Style #";
+            this.colStyle.Name = "colStyle";
+            this.colStyle.ReadOnly = true;
+            // 
+            // colColor
+            // 
+            this.colColor.Frozen = true;
+            this.colColor.HeaderText = "Color";
+            this.colColor.Name = "colColor";
+            this.colColor.ReadOnly = true;
+            this.colColor.Width = 60;
+            // 
+            // colSize
+            // 
+            this.colSize.Frozen = true;
+            this.colSize.HeaderText = "Size";
+            this.colSize.Name = "colSize";
+            this.colSize.ReadOnly = true;
+            this.colSize.Width = 60;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.Frozen = true;
+            this.colQuantity.HeaderText = "Quantity";
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.ReadOnly = true;
+            this.colQuantity.Width = 60;
+            // 
+            // colOperation
+            // 
+            this.colOperation.Frozen = true;
+            this.colOperation.HeaderText = "Update";
+            this.colOperation.Name = "colOperation";
+            this.colOperation.ReadOnly = true;
+            this.colOperation.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colOperation.Text = "";
             // 
             // groupBox1
             // 
@@ -2878,53 +2926,6 @@ namespace Scanner_SDK_Sample_Application
             this.tabCtrl.SelectedIndex = 0;
             this.tabCtrl.Size = new System.Drawing.Size(575, 724);
             this.tabCtrl.TabIndex = 1;
-            // 
-            // colUPC
-            // 
-            this.colUPC.Frozen = true;
-            this.colUPC.HeaderText = "UPC#";
-            this.colUPC.Name = "colUPC";
-            this.colUPC.ReadOnly = true;
-            // 
-            // colStyle
-            // 
-            this.colStyle.Frozen = true;
-            this.colStyle.HeaderText = "Style #";
-            this.colStyle.Name = "colStyle";
-            this.colStyle.ReadOnly = true;
-            // 
-            // colColor
-            // 
-            this.colColor.Frozen = true;
-            this.colColor.HeaderText = "Color";
-            this.colColor.Name = "colColor";
-            this.colColor.ReadOnly = true;
-            this.colColor.Width = 60;
-            // 
-            // colSize
-            // 
-            this.colSize.Frozen = true;
-            this.colSize.HeaderText = "Size";
-            this.colSize.Name = "colSize";
-            this.colSize.ReadOnly = true;
-            this.colSize.Width = 60;
-            // 
-            // colQuantity
-            // 
-            this.colQuantity.Frozen = true;
-            this.colQuantity.HeaderText = "Quantity";
-            this.colQuantity.Name = "colQuantity";
-            this.colQuantity.ReadOnly = true;
-            this.colQuantity.Width = 60;
-            // 
-            // colOperation
-            // 
-            this.colOperation.Frozen = true;
-            this.colOperation.HeaderText = "Update";
-            this.colOperation.Name = "colOperation";
-            this.colOperation.ReadOnly = true;
-            this.colOperation.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colOperation.Text = "";
             // 
             // frmScannerApp
             // 
@@ -3258,13 +3259,13 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.ComboBox cmbEmulation;
         private System.Windows.Forms.CheckBox chkBoxEmulation;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.DataGridView barcodeGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUPC;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStyle;
         private System.Windows.Forms.DataGridViewTextBoxColumn colColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuantity;
         private System.Windows.Forms.DataGridViewButtonColumn colOperation;
+        public System.Windows.Forms.DataGridView barcodeGridView;
     }
 }
 

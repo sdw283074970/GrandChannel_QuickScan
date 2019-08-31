@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using CoreScanner;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using GrandChannel_QuickScan;
 
 namespace Scanner_SDK_Sample_Application
 {
@@ -39,6 +40,7 @@ namespace Scanner_SDK_Sample_Application
         List<string> scanrdisablelist = new List<string>();
         //string baseUrl = "https://grandchannellogistic.com/";
         string baseUrl = "https://localhost:44364/";
+        FormUpdate form;
 
         public frmScannerApp()
         {
@@ -53,6 +55,7 @@ namespace Scanner_SDK_Sample_Application
             tabCtrl.TabPages.Remove(tabSSW);
             tabCtrl.TabPages.Remove(tabXml);
 
+            form = new FormUpdate();
             m_nResultLineCount = 0;
             m_bSuccessOpen = false;
             m_nTotalScanners = 0;
@@ -89,6 +92,8 @@ namespace Scanner_SDK_Sample_Application
             }
 
             // Register events for COM services
+            form.UPCRegistered += new FormUpdate.UPCRegisteredeEventHandler(OnUPCRegistered);
+
             m_pCoreScanner.ImageEvent += new CoreScanner._ICoreScannerEvents_ImageEventEventHandler(OnImageEvent);
             m_pCoreScanner.VideoEvent += new CoreScanner._ICoreScannerEvents_VideoEventEventHandler(OnVideoEvent);
             m_pCoreScanner.BarcodeEvent += new CoreScanner._ICoreScannerEvents_BarcodeEventEventHandler(OnBarcodeEvent);
@@ -2456,21 +2461,45 @@ namespace Scanner_SDK_Sample_Application
             }
         }
 
-        void DataGridView_ContentDoubleClicked(object sender, DataGridViewCellEventArgs e)
+        void DataGridView_CellContentClicked(object sender, DataGridViewCellEventArgs e)
+        {
+            //barcodeGridView.BeginEdit(true);
+            var upc = barcodeGridView.Rows[e.RowIndex].Cells[0].Value.ToString();
+            var style = barcodeGridView.Rows[e.RowIndex].Cells[1].Value.ToString();
+            var color = barcodeGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
+            var size = barcodeGridView.Rows[e.RowIndex].Cells[3].Value.ToString();
+
+            if (style == "")
+            {
+                form.btnRegister.Enabled = true;
+                form.btnUpdate.Enabled = false;
+            }
+            else
+            {
+                form.btnRegister.Enabled = false;
+                form.btnUpdate.Enabled = true;
+            }
+
+            form.txtUPC.Text = upc;
+            form.txtStyle.Text = style;
+            form.txtColor.Text = color;
+            form.txtSize.Text = size;
+            form.txtRowIndex.Text = e.RowIndex.ToString();
+            form.StartPosition = FormStartPosition.CenterParent;
+            form.ShowDialog();
+        }
+
+        void DataGridView_CellClicked(object sender, DataGridViewCellEventArgs e)
         {
 
-            MessageBox.Show("1");
-            try
-            {
-                if (barcodeGridView.CurrentCell.FormattedValue.ToString() == "")
-                {
+        }
 
-                }
-            }
-            catch (Exception exception)
-            {
-
-            }
+        void OnUPCRegistered(int rowIndex, string upc, string style, string color, string size)
+        {
+            barcodeGridView.Rows[rowIndex].Cells[0].Value = upc;
+            barcodeGridView.Rows[rowIndex].Cells[1].Value = style;
+            barcodeGridView.Rows[rowIndex].Cells[2].Value = color;
+            barcodeGridView.Rows[rowIndex].Cells[3].Value = size;
         }
     }
 
